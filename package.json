@@ -1,9 +1,9 @@
 {
-  "name": "calendar",
+  "name": "simple",
   "version": "1.0.0",
   "description": "having fun with react",
   "main": "index.js",
-  "repository": "git@github.com:hanselcarter/calendar.git",
+  "repository": "git@github.com:hanselcarter/simpleTest.git",
   "scripts": {
     "start": "webpack-dev-server --config webpack/dev.config.js",
     "start:prod": "cross-env NODE_ENV=production npm run start",
