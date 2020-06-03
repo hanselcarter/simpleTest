@@ -11,6 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import AddDialog from "./AddDialog";
+import ListText from "./List";
 
 const App = () => {
   const classes = useStyles();
@@ -19,8 +20,6 @@ const App = () => {
     patients: state.patientsReducer.patients,
     drugs: state.drugsReducer.drugs,
   }));
-  console.log(patients, "patients");
-  console.log(drugs, "drugs");
 
   const [openAddPatientDialog, setOpenAddPatientDialog] = React.useState(false);
   const [openAddDrugDialog, setOpenAddDrugDialog] = React.useState(false);
@@ -46,8 +45,8 @@ const App = () => {
     setOpenAddPatientDialog(false);
   };
 
-  const handleAddPatient = async (name) => {
-    await dispatch(startAddPatient({ name }));
+  const handleAddPatient = async ({ name, drugs }) => {
+    await dispatch(startAddPatient({ name, drugs }));
     setOpenAddPatientDialog(false);
   };
 
@@ -59,7 +58,7 @@ const App = () => {
     setOpenAddDrugDialog(false);
   };
 
-  const handleAddDrug = async (name) => {
+  const handleAddDrug = async ({ name }) => {
     await dispatch(startAddDrug({ name }));
     setOpenAddDrugDialog(false);
   };
@@ -88,6 +87,12 @@ const App = () => {
             Add Drug
           </Button>
         </Grid>
+        <Grid item xs={6}>
+          <ListText items={patients} header="Patients Lost" />
+        </Grid>
+        <Grid item xs={6}>
+          <ListText items={drugs} header="Drug list" />
+        </Grid>
       </Grid>
       <AddDialog
         key="patient"
@@ -95,7 +100,8 @@ const App = () => {
         header="Add Patient"
         open={openAddPatientDialog}
         handleClose={handleCloseAddPatientDialog}
-        handleAddPatient={handleAddPatient}
+        handleAdd={handleAddPatient}
+        enableAddDrugs={true}
       />
       <AddDialog
         key="drug"
@@ -103,7 +109,7 @@ const App = () => {
         header="Add Drug"
         open={openAddDrugDialog}
         handleClose={handleCloseAddDrugDialog}
-        handleAddPatient={handleAddDrug}
+        handleAdd={handleAddDrug}
       />
     </div>
   );
