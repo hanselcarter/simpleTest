@@ -2,27 +2,40 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { startAddPatient, startSetPatients } from "Actions/index";
+import {
+  startAddPatient,
+  startSetPatients,
+  startAddDrug,
+  startSetDrugs,
+} from "Actions/index";
 import { useDispatch, useSelector } from "react-redux";
-// import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import AddDialog from "./AddDialog";
 
 const App = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { patients } = useSelector((state) => state.patientsReducer);
+  const { patients, drugs } = useSelector((state) => ({
+    patients: state.patientsReducer.patients,
+    drugs: state.drugsReducer.drugs,
+  }));
   console.log(patients, "patients");
+  console.log(drugs, "drugs");
 
   const [openAddPatientDialog, setOpenAddPatientDialog] = React.useState(false);
   const [openAddDrugDialog, setOpenAddDrugDialog] = React.useState(false);
 
   React.useEffect(() => {
     fetchPatients();
+    fetchDrugs();
   }, []);
 
   const fetchPatients = async () => {
     await dispatch(startSetPatients());
+  };
+
+  const fetchDrugs = async () => {
+    await dispatch(startSetDrugs());
   };
 
   const handleClickAddPatientDialog = () => {
@@ -34,7 +47,6 @@ const App = () => {
   };
 
   const handleAddPatient = async (name) => {
-    console.log(name, "patient name");
     await dispatch(startAddPatient({ name }));
     setOpenAddPatientDialog(false);
   };
@@ -47,8 +59,8 @@ const App = () => {
     setOpenAddDrugDialog(false);
   };
 
-  const handleAddDrug = (name) => {
-    console.log(name, "patient name");
+  const handleAddDrug = async (name) => {
+    await dispatch(startAddDrug({ name }));
     setOpenAddDrugDialog(false);
   };
 
