@@ -1,10 +1,4 @@
-import {
-  ADD_REMINDER,
-  UPDATE_REMINDER,
-  DELETE_REMINDER,
-  DELETE_ALL_REMINDERS,
-  SET_REMINDERS,
-} from "Actions/types";
+import { ADD_PATIENT, UPDATE_PATIENT, SET_PATIENTS } from "Actions/types";
 
 const INITIAL_STATE = {
   patients: [],
@@ -13,36 +7,26 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SET_REMINDERS:
+    case SET_PATIENTS:
       return {
         ...state,
-        reminders: action.payload.reminders,
+        patients: action.payload.patients,
         isLoading: false,
       };
-    case ADD_REMINDER:
+    case ADD_PATIENT:
       return {
         ...state,
-        reminders: [...state.reminders, action.payload.reminder],
+        patients: [...state.patients, action.payload.patient],
       };
-    case UPDATE_REMINDER:
+    case UPDATE_PATIENT:
       return {
         ...state,
-        reminders: [
-          ...state.reminders.slice(0, action.payload.index),
-          action.payload.reminder,
-          ...state.reminders.slice(action.payload.index + 1),
+        patients: [
+          ...state.patients.slice(0, action.payload.index),
+          action.payload.patient,
+          ...state.patients.slice(action.payload.index + 1),
         ],
       };
-    case DELETE_REMINDER:
-      return {
-        ...state,
-        reminders: [
-          ...state.reminders.slice(0, action.payload.index),
-          ...state.reminders.slice(action.payload.index + 1),
-        ],
-      };
-    case DELETE_ALL_REMINDERS:
-      return { ...state, reminders: [] };
     default:
       return state;
   }
